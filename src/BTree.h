@@ -21,13 +21,14 @@ typedef struct BTreeNode{
 
 BTreeNode* init_node(int is_leaf);
 void split_child(BTreeNode* parent, int idx);
-void insert_node(BTreeNode* node, int value, const char* key);
-void insert(BTreeNode** root, const char* key, int value);
+void insert_node(BTreeNode* node, double value, const char* key);
+void insert(BTreeNode** root, const char* key, double value);
 void printB(BTreeNode* root);
 int value_by_key(BTreeNode* node, char* key, double* result);
 void fill(BTreeNode* node, int idx);
 int delete_by_key(BTreeNode* node, char* key);
-void delete_key(BTreeNode** root, char* key);
+int delete_key(BTreeNode** root, char* key);
 void free_tree(BTreeNode** tree);
+void printB_to_file(FILE *f, BTreeNode *root);
 
 #endif
