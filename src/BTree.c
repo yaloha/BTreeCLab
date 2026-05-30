@@ -95,14 +95,24 @@ void insert(BTreeNode** root, const char* key, double value){
     }
 }
 
-void printB(BTreeNode* root){
-    if (root != NULL){
-        int i;
-        for (i = 0; i < root->key_count; i++){
-            printB(root->children[i]);
-            printf("[k]: %s [v]: %lf \n", root->keys[i].key, root->keys[i].value);
+void printB(BTreeNode* root, int d){
+    if (root == NULL) return;
+
+    for (int j = 0; j < d; j++) {
+        printf("    ");
+    }
+
+    printf("| ");
+    for (int i = 0; i < root->key_count; i++) {
+        printf("%s", root->keys[i].key);
+        if (i < root->key_count - 1) printf(" | ");
+    }
+    printf(" |\n");
+
+    if (!root->is_leaf) {
+        for (int i = 0; i <= root->key_count; i++) {
+            printB(root->children[i], d + 1);
         }
-        printB(root->children[i]);
     }
 }
 
@@ -266,12 +276,30 @@ void free_tree(BTreeNode** tree){
     *tree = NULL;
 }
 
+void printB_node_to_file(FILE *f, BTreeNode *node, int depth) {
+    if (node == NULL) return;
+
+    for (int j = 0; j < depth; j++) {
+        fprintf(f, "    ");
+    }
+
+    fprintf(f, "| ");
+    for (int i = 0; i < node->key_count; i++) {
+        fprintf(f, "%s (%.2lf)", node->keys[i].key, node->keys[i].value);
+        if (i < node->key_count - 1) {
+            fprintf(f, " | ");
+        }
+    }
+    fprintf(f, " |\n");
+
+    if (!node->is_leaf) {
+        for (int i = 0; i <= node->key_count; i++) {
+            printB_node_to_file(f, node->children[i], depth + 1);
+        }
+    }
+}
+
 void printB_to_file(FILE *f, BTreeNode *root) {
     if (root == NULL) return;
-    int i;
-    for (i = 0; i < root->key_count; i++) {
-        printB_to_file(f, root->children[i]);
-        fprintf(f, "[k]: %s [v]: %lf\n", root->keys[i].key, root->keys[i].value);
-    }
-    printB_to_file(f, root->children[i]);
+    printB_node_to_file(f, root, 0);
 }

@@ -128,7 +128,7 @@ void interative_mode(BTreeNode **root){
                 delete_key(root, key);
                 break;
             case 3:
-                printB(*root);
+                printB(*root, 0);
                 break;
             case 4:
                 printf("provide the key value of which you want to find\n");

@@ -23,7 +23,7 @@ BTreeNode* init_node(int is_leaf);
 void split_child(BTreeNode* parent, int idx);
 void insert_node(BTreeNode* node, double value, const char* key);
 void insert(BTreeNode** root, const char* key, double value);
-void printB(BTreeNode* root);
+void printB(BTreeNode* root, int d);
 int value_by_key(BTreeNode* node, char* key, double* result);
 void fill(BTreeNode* node, int idx);
 int delete_by_key(BTreeNode* node, char* key);
